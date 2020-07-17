@@ -17,7 +17,7 @@ class CreateAttributesTable extends Migration
     {
         Schema::create(config('rinvex.attributes.tables.attributes'), function (Blueprint $table) {
             // Columns
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('slug');
             $table->{$this->jsonable()}('name');
             $table->{$this->jsonable()}('description')->nullable();
@@ -27,6 +27,7 @@ class CreateAttributesTable extends Migration
             $table->boolean('is_required')->default(false);
             $table->boolean('is_collection')->default(false);
             $table->text('default')->nullable();
+            $table->bigInteger('owner_id');
             $table->timestamps();
 
             // Indexes

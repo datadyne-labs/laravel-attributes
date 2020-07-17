@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rinvex\Attributes\Models;
 
+use App\Laravue\Models\User;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
@@ -30,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon|null                                                               $created_at
  * @property \Carbon\Carbon|null                                                               $updated_at
  * @property array                                                                             $entities
+ * @property int                                                                               $owner_id
+ * @property User                                                                              $owner
  * @property-read \Rinvex\Attributes\Support\ValueCollection|\Rinvex\Attributes\Models\Value[] $values
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Attributes\Models\Attribute ordered($direction = 'asc')
@@ -68,6 +72,7 @@ class Attribute extends Model implements Sortable
         'is_collection',
         'default',
         'entities',
+        'owner_id',
     ];
 
     /**
@@ -256,5 +261,16 @@ class Attribute extends Model implements Sortable
     public function values(string $value): HasMany
     {
         return $this->hasMany($value, 'attribute_id', 'id');
+    }
+
+
+    /**
+     * Get the owner attached to this attribute
+     *
+     * @return HasOne
+     */
+    public function owner(): HasOne
+    {
+        return $this->hasOne(User::class,'user_id','owner_id');
     }
 }

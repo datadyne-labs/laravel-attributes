@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAttributeBooleanValuesTable extends Migration
+class CreateAttributeDecimalValuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,18 +15,19 @@ class CreateAttributeBooleanValuesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('rinvex.attributes.tables.attribute_boolean_values'), function (Blueprint $table) {
+        Schema::create(config('rinvex.attributes.tables.attribute_decimal_values'), function (Blueprint $table) {
             // Columns
             $table->bigIncrements('id');
-            $table->boolean('content');
+            $table->float('content', 12, 2);
             $table->bigInteger('attribute_id')->unsigned();
             $table->bigInteger('entity_id')->unsigned();
             $table->string('entity_type');
+            $table->boolean('is_currency')->nullable();
             $table->timestamps();
 
             // Indexes
             $table->foreign('attribute_id')->references('id')->on(config('rinvex.attributes.tables.attributes'))
-                  ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -37,6 +38,6 @@ class CreateAttributeBooleanValuesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('rinvex.attributes.tables.attribute_boolean_values'));
+        Schema::dropIfExists(config('rinvex.attributes.tables.attribute_decimal_values'));
     }
 }
