@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rinvex\Attributes\Models;
 
 use App\Laravue\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Spatie\Sluggable\SlugOptions;
@@ -86,6 +87,13 @@ class Attribute extends Model implements Sortable
         'is_required' => 'boolean',
         'is_collection' => 'boolean',
         'default' => 'string',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $with = [
+        'owner'
     ];
 
     /**
@@ -267,10 +275,10 @@ class Attribute extends Model implements Sortable
     /**
      * Get the owner attached to this attribute
      *
-     * @return HasOne
+     * @return BelongsTo
      */
-    public function owner(): HasOne
+    public function owner(): BelongsTo
     {
-        return $this->hasOne(User::class,'user_id','owner_id');
+        return $this->belongsTo(User::class,'owner_id','id');
     }
 }
