@@ -17,7 +17,7 @@ class CreateAttributeOptionsTable extends Migration
     {
         Schema::create(config('rinvex.attributes.tables.attribute_options'), function (Blueprint $table) {
             // Columns
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unsigned();
             $table->bigInteger('attribute_id')->unsigned();
             $table->string('value');
             $table->text('label');

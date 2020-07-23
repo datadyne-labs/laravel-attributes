@@ -18,7 +18,7 @@ class CreateAttributeSelectValuesTable extends Migration
         Schema::create(config('rinvex.attributes.tables.attribute_select_values'), function (Blueprint $table) {
             // Columns
             $table->bigIncrements('id');
-            $table->integer('content');
+            $table->bigInteger('content')->unsigned();
             $table->bigInteger('attribute_id')->unsigned();
             $table->bigInteger('entity_id')->unsigned();
             $table->string('entity_type');
@@ -27,6 +27,9 @@ class CreateAttributeSelectValuesTable extends Migration
             // Indexes
             $table->foreign('attribute_id')->references('id')->on(config('rinvex.attributes.tables.attributes'))
                   ->onDelete('cascade')->onUpdate('cascade');
+
+            $table->foreign('content')->references('id')->on(config('rinvex.attributes.tables.attribute_options'))
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
