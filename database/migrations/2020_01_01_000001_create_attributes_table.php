@@ -27,6 +27,7 @@ class CreateAttributesTable extends Migration
             $table->boolean('is_required')->default(false);
             $table->boolean('is_collection')->default(false);
             $table->text('default')->nullable();
+            $table->string('frontend_type')->nullable();
             $table->bigInteger('owner_id');
             $table->timestamps();
 

@@ -93,7 +93,8 @@ class Attribute extends Model implements Sortable
      * {@inheritdoc}
      */
     protected $with = [
-        'owner'
+        'owner',
+        'options'
     ];
 
     /**
@@ -281,4 +282,18 @@ class Attribute extends Model implements Sortable
     {
         return $this->belongsTo(User::class,'owner_id','id');
     }
+
+    public function addOptions(array $options){
+        if (count($options) > 0){
+            foreach ($options as $option){
+                $option['attribute_id'] = $this->id;
+                Option::create($option);
+            }
+        }
+    }
+
+    public function options() {
+        return $this->hasMany(Option::class,'attribute_id','id');
+    }
+
 }
