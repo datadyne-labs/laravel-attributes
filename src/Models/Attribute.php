@@ -283,15 +283,45 @@ class Attribute extends Model implements Sortable
         return $this->belongsTo(User::class,'owner_id','id');
     }
 
+    /**
+     * @param array $option
+     */
+    private function addOption(array $option){
+        if ($this->type === 'select'){
+            Option::create($option);
+        }
+    }
+
+    /**
+     * Add Options to this attribute only if it's a select type
+     *
+     * @param array $options
+     */
     public function addOptions(array $options){
-        if (count($options) > 0){
+        if ($this->type === 'select' && count($options) > 0){
             foreach ($options as $option){
                 $option['attribute_id'] = $this->id;
-                Option::create($option);
+                $this->addOption($option);
             }
         }
     }
 
+    /**
+     * Remove Option by value
+     *
+     * @param string $option
+     */
+    public function removeOption(string $option){
+        if ($this->type === 'select'){
+            Option::where([['attribute_id','=',$this->id],['value','=',$option]])->delete();
+        }
+    }
+
+    /**
+     * get the attributes options - only applies to select types
+     *
+     * @return HasMany
+     */
     public function options() {
         return $this->hasMany(Option::class,'attribute_id','id');
     }
