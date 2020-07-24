@@ -28,11 +28,14 @@ class CreateAttributesTable extends Migration
             $table->boolean('is_collection')->default(false);
             $table->text('default')->nullable();
             $table->string('frontend_type')->nullable();
-            $table->bigInteger('owner_id');
+            $table->bigInteger('owner_id')->unsigned();
             $table->timestamps();
 
             // Indexes
             $table->unique('slug');
+
+            $table->foreign('owner_id')->references('id')->on(config('rinvex.attributes.tables.attribute_owner'))
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
