@@ -40,6 +40,8 @@ class Select extends Value
         'entity_type' => 'string',
     ];
 
+    protected $with = ['attribute'];
+
     /**
      * Create a new Eloquent model instance.
      *
