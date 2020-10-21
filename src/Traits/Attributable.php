@@ -437,17 +437,19 @@ trait Attributable
      * Scope query with the given entity attribute.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param string                                $key
-     * @param mixed                                 $value
+     * @param string $key
+     * @param mixed $value
+     * @param string $operator
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeHasAttribute(Builder $builder, string $key, $value): Builder
+    public function scopeHasAttribute(Builder $builder, string $key, $value, $operator = '='): Builder
     {
-        return $builder->whereHas($key, function (Builder $builder) use ($value) {
-            $builder->where('content', $value)->where('entity_type', $this->getMorphClass());
+        return $builder->whereHas($key, function (Builder $builder) use ($value,$operator) {
+            $builder->where('content',$operator,$value)->where('entity_type', $this->getMorphClass());
         });
     }
+
 
     /**
      * Dynamically pipe calls to attribute relations.
