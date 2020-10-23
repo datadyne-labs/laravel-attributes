@@ -86,6 +86,8 @@ class Attribute extends Model implements Sortable
         'type' => 'string',
         'is_required' => 'boolean',
         'is_collection' => 'boolean',
+        'is_filterable' => 'boolean',
+        'is_sortable' => 'boolean',
         'default' => 'string',
     ];
 
@@ -161,6 +163,8 @@ class Attribute extends Model implements Sortable
             'type' => 'required|string|strip_tags|max:150',
             'is_required' => 'sometimes|boolean',
             'is_collection' => 'sometimes|boolean',
+            'is_filterable' => 'sometimes|boolean',
+            'is_sortable' => 'sometimes|boolean',
             'default' => 'nullable|string|strip_tags|max:10000',
         ]);
     }
