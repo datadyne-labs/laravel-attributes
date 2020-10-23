@@ -29,12 +29,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string                                                                            $type
  * @property bool                                                                              $is_required
  * @property bool                                                                              $is_collection
+ * @property bool                                                                              $is_filterable
+ * @property bool                                                                              $is_sortable
  * @property string                                                                            $default
  * @property \Carbon\Carbon|null                                                               $created_at
  * @property \Carbon\Carbon|null                                                               $updated_at
  * @property array                                                                             $entities
  * @property int                                                                               $owner_id
  * @property User                                                                              $owner
+ * @property Organization                                                                      $organization
  * @property-read \Rinvex\Attributes\Support\ValueCollection|\Rinvex\Attributes\Models\Value[] $values
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Attributes\Models\Attribute ordered($direction = 'asc')
@@ -74,6 +77,7 @@ class Attribute extends Model implements Sortable
         'default',
         'entities',
         'owner_id',
+        'organization_id',
     ];
 
     /**
@@ -165,6 +169,8 @@ class Attribute extends Model implements Sortable
             'is_collection' => 'sometimes|boolean',
             'is_filterable' => 'sometimes|boolean',
             'is_sortable' => 'sometimes|boolean',
+            'owner_id' => ['required','exists:users,id','numeric'],
+            'organization_id' => ['required','exists:organizations,id','numeric'],
             'default' => 'nullable|string|strip_tags|max:10000',
         ]);
     }
@@ -285,6 +291,16 @@ class Attribute extends Model implements Sortable
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class,'owner_id','id');
+    }
+
+    /**
+     * Get the organization attached to this attribute
+     *
+     * @return BelongsTo
+     */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class,'organization_id','id');
     }
 
     /**

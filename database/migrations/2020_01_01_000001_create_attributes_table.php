@@ -31,12 +31,16 @@ class CreateAttributesTable extends Migration
             $table->text('default')->nullable();
             $table->string('frontend_type')->nullable();
             $table->bigInteger('owner_id')->unsigned();
+            $table->bigInteger('organization_id')->unsigned();
             $table->timestamps();
 
             // Indexes
             $table->unique('slug');
 
             $table->foreign('owner_id')->references('id')->on(config('rinvex.attributes.tables.attribute_owner'))
+                ->onDelete('cascade')->onUpdate('cascade');
+
+            $table->foreign('organization_id')->references('id')->on(config('rinvex.attributes.tables.attribute_organization'))
                 ->onDelete('cascade')->onUpdate('cascade');
         });
     }
