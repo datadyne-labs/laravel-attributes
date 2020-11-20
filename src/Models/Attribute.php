@@ -73,6 +73,8 @@ class Attribute extends Model implements Sortable
         'group',
         'type',
         'is_required',
+        'is_sortable',
+        'is_filterable',
         'is_collection',
         'default',
         'entities',
