@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Rinvex\Attributes\Models;
 
-use App\Laravue\Models\User;
+use App\Domain\Crm\Organization\Model\Organization;
+use App\Domain\Crm\User\Model\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
